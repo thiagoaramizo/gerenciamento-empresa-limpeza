@@ -1,0 +1,23 @@
+{
+  "name": "gerenciamento-empresa-limpeza",
+  "version": "1.0.0",
+  "description": "Sistema de gerenciamento de clientes para empresa de limpeza. Avaliação Facilita Jurídico.",
+  "main": "index.js",
+  "workspaces": {
+    "packages": [
+      "packages/*",
+      "packages/shared/*"
+    ]
+  },
+  "scripts": {
+    "test": "jest"
+  },
+  "author": "Thiago Aramizo Ribeiro <aramizo@icloud.com>",
+  "license": "ISC",
+  "dependencies": {
+    "@types/jest": "^29.5.11",
+    "jest": "^29.7.0",
+    "ts-jest": "^29.1.2",
+    "typescript": "^5.3.3"
+  }
+}

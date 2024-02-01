@@ -1,0 +1,14 @@
+services:
+  db:
+    image: postgres:latest
+    restart: always
+    volumes:
+      - ./db.sql:/docker-entrypoint-initdb.d/db.sql
+    environment:
+      POSTGRES_PASSWORD: admin
+      POSTGRES_USER: admin
+      POSTGRES_DB: dbgel
+    ports:
+      - "5432:5432"
+    expose:
+      - "5432"
