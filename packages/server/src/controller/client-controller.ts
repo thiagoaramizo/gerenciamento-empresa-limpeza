@@ -5,12 +5,17 @@ import Client from '../models/client-model'
 const clientController = express.Router()
 
 clientController.post('/', async (req, res) => {
-    const new_client = req.body as Client
     try {
-        const query = `INSERT INTO clients (name, email, phone) VALUES ('${new_client.name}', '${new_client.email}', '${new_client.phone}' )`
-        await pool.query(query)
+        const new_client = req.body as Client
+        const dbClient = await pool.connect()
+        const query = `INSERT INTO clients (name, email, phone) VALUES ('${new_client.name}', '${new_client.email}', '${new_client.phone}' ) RETURNING id`
+        const result = await dbClient.query(query)
+        dbClient.release()
         res.status(201)
-        return res.json({ message: 'Client saved successfully'})
+        return res.json({ 
+            message: 'Cliente salvo com sucesso',
+            id: result.rows[0].id
+        })
     } catch (err) {
         console.log(err)
         res.status(500)
@@ -19,8 +24,10 @@ clientController.post('/', async (req, res) => {
 
 clientController.get('/', async (req, res) => {
     try {
-        const result = await pool.query('SELECT * FROM clients')
-        console.log(result.rows)
+        const dbClient = await pool.connect()
+        const query = 'SELECT * FROM clients'
+        const result = await dbClient.query(query)
+        dbClient.release()
         return res.json(
             {
                 total: result.rowCount,
@@ -34,39 +41,38 @@ clientController.get('/', async (req, res) => {
 })
 
 clientController.get('/:id', async (req, res) => {
-    const id = req.params.id
     try {
-        const result = await pool.query('SELECT * FROM clients')
-        console.log(result.rows)
-        return res.json({ message: 'clients get' + id})
+        const id = req.params.id
+        const dbClient = await pool.connect()
+        const query = `SELECT * FROM clients WHERE id = ${id}`
+        const result = await dbClient.query(query)
+        dbClient.release()
+        if ( (result.rowCount) && (result.rowCount > 0) ) {
+            return res.json( result.rows[0] )
+        } else {
+            res.status(404)
+            return res.json({
+                message: 'Cliente não encontrado'
+            })
+        }
     } catch (err) {
         console.log(err)
         res.status(500)
     }
 })
 
+// TODO: implementar função de edição.
 clientController.put('/:id', async (req, res) => {
     const id = req.params.id
-    try {
-        const result = await pool.query('SELECT * FROM clients')
-        console.log(result.rows)
-        return res.json({ message: 'clients put:' + id})
-    } catch (err) {
-        console.log(err)
-        res.status(500)
-    }
+    res.status(500)
+    return res.json({ message: `Não foi possível editar o usuário id ${id}. Endpoint não implementada.`})
 })
 
+// TODO: implementar função de remoção.
 clientController.delete('/:id', async (req, res) => {
     const id = req.params.id
-    try {
-        const result = await pool.query('SELECT * FROM clients')
-        console.log(result.rows)
-        return res.json({ message: 'clients delete:' + id})
-    } catch (err) {
-        console.log(err)
-        res.status(500)
-    }
+    res.status(500)
+    return res.json({ message: `Não foi possível deletar o usuário id ${id}. Endpoint não implementada.`})
 })
 
 export default clientController
