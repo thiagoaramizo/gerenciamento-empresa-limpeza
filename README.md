@@ -20,7 +20,7 @@
 
 ## Executando o sistema
 
-Para executar o projeto, copie o repositório para a seu computador, em seguida execute o seguintes passos:
+Para executar o projeto, copie o repositório para a seu computador. Todo o código está um um monorepo. Acesse a pasta do repositório e execute o seguintes passos:
 
 
 ### 1. Instalando dependencias
@@ -33,7 +33,9 @@ npm i
 
 ### 2. Instalando e rodando o banco de dados com Docker Compose
 
-Para executar o banco de dados, com o Docker Compose instalado em seu computador, pelo terminal, acesse a pasta do servidor `packages\server` e execute o seguinte comando:
+**Importante:** é necessário ter o `Docker Compose` instalado em seu computador.
+
+Para executar o banco de dados, pelo terminal, acesse a pasta do servidor `packages\server` e execute o seguinte comando:
 
 ```bash
 docker-compose up -d
@@ -45,30 +47,23 @@ Verifique se o container do banco de dados está devidamente rodando com o coman
 docker-compose ps
 ```
 
+### 3 Iniciando a aplicação
 
-### 3. Iniciando servidor da API
-
-Para executar o servidor da API, a partir da raiz do projeto execute o seguinte comando:
+Para executar a aplicação completa (Web+API), a partir da raiz do projeto execute o seguinte comando:
 
 ```bash
-npm run server
+npm run all
 ```
 
-Se preferir acesso a pasta do pacote web em `packages\server` e execute o comando:
+**Se preferir, inicie separadamente cada uma das camadas:**
+
+Para executar o **servidor da API**, acesse a pasta do pacote web em `packages\server` e execute o comando:
 
 ```bash
 npm run dev
 ```
 
-### 4. Iniciando a aplicação Web
-
-Em um novo terminal, a partir da raiz do projeto execute o seguinte comando:
-
-```bash
-npm run web
-```
-
-Se preferir acesso a pasta do pacote web em `packages\web` e execute o comando:
+Para a **aplicação Web**, em um novo terminal, a partir da pasta do pacote web em `packages\web` e execute o comando:
 
 ```bash
 npm run dev
