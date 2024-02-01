@@ -9,9 +9,9 @@
 - [ ] O operador deve ter a capacidade de fazer a autenticação no sistema 
 
 ## Requisitos não-funcionais
-- [ ] Banco de dados PostgreSQL
-- [ ] API REST em Node.js
-- [ ] Interface Web em React.js (Next.js)
+- [&#10003;] Banco de dados PostgreSQL
+- [&#10003;] API REST em Node.js
+- [&#10003;] Interface Web em React.js (Next.js)
 - [ ] Endpoint da API para consulta da menor rota possível
 - [ ] Autenticação por JWT
 - [ ] Os endpoints da API devem fazer o controle de acesso
