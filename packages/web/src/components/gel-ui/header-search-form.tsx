@@ -14,7 +14,7 @@ export default function HeaderSearchForm() {
     return (
         <form className="flex items-center">
             <Input
-                className="peer rounded-r-none border-slate-300 bg-slate-200 w-[240px] focus:bg-white focus:w-[360px] focus-visible:border-primary focus-visible:ring-0"
+                className="peer rounded-r-none border-slate-300 bg-slate-200/75 w-[240px] focus:bg-white focus:w-[360px] focus-visible:border-primary focus-visible:ring-0"
                 placeholder="Pesquise seus clientes"
                 value={term}
                 onChange={handleSearchInput}

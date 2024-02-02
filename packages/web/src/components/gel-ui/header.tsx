@@ -4,14 +4,10 @@ import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel,
 import Link from "next/link";
 import HeaderSearchForm from "./header-search-form";
 
-
-
-
-
 export default function Header() {
     return (
         <header className="w-full h-[96px] bg-slate-200/75 px-6 flex items-center justify-between">
-            <div>
+            <div> 
                 <Link href={'/'}>
                     <Image src={'logo.svg'} width={190} height={38} alt="Gerenciamento Empresa Limpeza" />    
                 </Link>
@@ -24,9 +20,7 @@ export default function Header() {
                             <AvatarFallback className="bg-primary text-primary-foreground">AD</AvatarFallback>
                         </Avatar>
                     </DropdownMenuTrigger>
-                    <DropdownMenuContent className="bg-slate-50">
-                        <DropdownMenuLabel>Minha conta</DropdownMenuLabel>
-                        <DropdownMenuSeparator />
+                    <DropdownMenuContent className="bg-slate-200/90">
                         <DropdownMenuItem>Perfil</DropdownMenuItem>
                         <DropdownMenuItem>Configurações</DropdownMenuItem>
                         <DropdownMenuItem>Sair</DropdownMenuItem>
