@@ -94,7 +94,12 @@ routeController.get('/', async (req, res) => {
         const query = 'SELECT * FROM routes ORDER BY id DESC'
         const result = await dbClient.query(query)
         dbClient.release()
-        return res.json(result.rows)
+        return res.json(
+            {
+                total: result.rowCount,
+                routes: result.rows
+            }
+        )
     } catch (err) {
         console.log(err)
         res.status(500)
