@@ -12,3 +12,9 @@ export function phoneMask( value: string): string {
   value = value.replace(/(\d)(\d{4})$/,"$1-$2")
   return value
 }
+
+export function phoneRemoveMask( value: string): string {
+  if (!value) return ""
+  value = value.replace(/\D/g,'')
+  return value
+}

@@ -8,6 +8,7 @@ import { columns } from '../../components/gel-ui/tables/client-data-table/column
 import Head from 'next/head'
 import Link from 'next/link'
 import { GetApiResponse, getClients } from '../../services/clients'
+import { UserPlus } from '@phosphor-icons/react'
 
 
 export default function Clients() {
@@ -30,12 +31,13 @@ export default function Clients() {
                 <PageTitle>Clientes</PageTitle>
                 <Link 
                     href={'./clients/register'}
-                    className="inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-0 bg-primary text-white hover:bg-primary/90 h-9 px-4 py-2"
+                    className="inline-flex items-center gap-2 justify-center whitespace-nowrap rounded-md text-md font-medium transition-colors focus-visible:outline-none focus-visible:ring-0 bg-primary text-white hover:bg-primary/90 h-10 px-6 py-4"
                 >
+                    <UserPlus size={24} />
                     Novo cliente</Link>
             </div>
             
-            <div className='pt-6'>
+            <div className='pt-8'>
                 {apiResponse?.clients && <DataTable columns={columns} data={apiResponse.clients}/>}
             </div>
             

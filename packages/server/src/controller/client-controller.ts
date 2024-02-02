@@ -8,7 +8,8 @@ clientController.post('/', async (req, res) => {
     try {
         const new_client = req.body as Client
         const dbClient = await pool.connect()
-        const query = `INSERT INTO clients (name, email, phone) VALUES ('${new_client.name}', '${new_client.email}', '${new_client.phone}' ) RETURNING id`
+        const phoneOnlyNumbers = new_client.phone.replace(/\D/g,'') // Removendo caracteres diferentes de dígitos
+        const query = `INSERT INTO clients (name, email, phone) VALUES ('${new_client.name}', '${new_client.email}', '${phoneOnlyNumbers}' ) RETURNING id`
         const result = await dbClient.query(query)
         dbClient.release()
         res.status(201)
@@ -25,7 +26,7 @@ clientController.post('/', async (req, res) => {
 clientController.get('/', async (req, res) => {
     try {
         const dbClient = await pool.connect()
-        const query = 'SELECT * FROM clients'
+        const query = 'SELECT * FROM clients ORDER BY id DESC'
         const result = await dbClient.query(query)
         dbClient.release()
         return res.json(

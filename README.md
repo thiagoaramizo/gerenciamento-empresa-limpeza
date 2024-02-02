@@ -90,11 +90,11 @@ npm run dev
 
 ## Requisitos funcionais
 Obrigatórios:
-- [ ] Cliente deve ser cadastrado com Nome, E-mail e Telefone
-- [ ] Deve ser possível consultar os clientes cadastrados
-- [ ] Deve ser possível consultar os clientes cadastrados por filtro
+- [x] Cliente deve ser cadastrado com Nome, E-mail e Telefone
+- [x] Deve ser possível consultar os clientes cadastrados
+- [x] Deve ser possível consultar os clientes cadastrados por filtro
 - [ ] O endereço do cliente deverá ser cadastrado com coordenada X,Y (longitude, latitude)
-- [ ] Deve ser possível consultar a rota de vistia aos clientes com menor distância possível
+- [ ] Deve ser possível consultar a rota de visita aos clientes com menor distância possível
 
 Extras:
 - [ ] O operador deve ter a capacidade de fazer a autenticação no sistema

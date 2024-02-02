@@ -17,5 +17,10 @@ export async function getClients(): Promise<GetApiResponse | undefined>  {
 
 export async function postClient( client: Client ): Promise<GenericApiResponse | undefined>  {
     const response = await api.post( '/client', client)
-    return response.data as GenericApiResponse
+    if (response.status == 201) {
+        return response.data as GenericApiResponse
+    } else {
+        return { message: "Erro ao salvar o cliente." }
+    }
 }
+    

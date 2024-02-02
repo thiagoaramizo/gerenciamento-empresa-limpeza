@@ -1,37 +1,64 @@
-'use-client'
+"use-client";
 
-import Head from 'next/head'
-import AppConteiner from '../../components/gel-ui/layout/app-container'
-import PageTitle from '../../components/gel-ui/typography/page-title'
-import { useState } from 'react'
-import { Label } from '../../components/ui/label'
-import { Input } from '../../components/ui/input'
-import InputValidate from '../../components/gel-ui/forms/input-validate'
-import { phoneMask } from '../../lib/utils'
+import Head from "next/head";
+import AppConteiner from "../../components/gel-ui/layout/app-container";
+import PageTitle from "../../components/gel-ui/typography/page-title";
+import { FormEvent, useState } from "react";
+import InputValidate from "../../components/gel-ui/forms/input-validate";
+import { phoneMask, phoneRemoveMask } from "../../lib/utils";
+import { postClient } from "../../services/clients";
+import { Button } from "../../components/ui/button";
+import {
+    Card,
+    CardContent,
+    CardDescription,
+    CardHeader,
+    CardTitle,
+} from "../../components/ui/card";
+import { useToast } from "../../components/ui/use-toast";
+import { Toaster } from "../../components/ui/toaster";
+import { ToastAction } from "../../components/ui/toast";
+import Link from "next/link";
 
 export default function RegisterClient() {
+    const [name, setName] = useState("");
+    const [email, setEmail] = useState("");
+    const [phone, setPhone] = useState("");
+    const [isLoading, setIsLoading] = useState(false);
+    const { toast } = useToast();
 
-    const [name, setName] = useState("")
-    const [email, setEmail] = useState("")
-    const [phone, setPhone] = useState("")
+    const isFillForm = (): boolean => {
+        return name && email && phone ? true : false;
+    };
 
-    const handleSubmit = ( e: SubmitEvent) => {
-        e.preventDefault()
-    }
+    const resetForm = () => {
+        setEmail("");
+        setName("");
+        setPhone("");
+    };
 
-    const validadeNameInput = ( value: string ) => {
-        if (value != "") {
-            return {
-                isValid: true,
-                message: ""
-            }
-        } else {
-            return {
-                isValid: false,
-                message: "O nome deve ser preenchido."
-            }
+    const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
+        e.preventDefault();
+        if (!isLoading && isFillForm()) {
+            setIsLoading(true);
+            const formatedPhone = phoneRemoveMask(phone);
+            postClient({ name, email, phone: formatedPhone }).then(
+                (response) => {
+                    setIsLoading(false);
+                    resetForm();
+                    if (response)
+                        toast({
+                            description: response.message,
+                            action: (
+                                <ToastAction altText="Acessar clientes">
+                                    <Link href={"/clients"}>Acessar</Link>
+                                </ToastAction>
+                            ),
+                        });
+                }
+            );
         }
-    }
+    };
 
     return (
         <>
@@ -41,41 +68,65 @@ export default function RegisterClient() {
             <AppConteiner>
                 <PageTitle>Registro de cliente</PageTitle>
 
-                <form>
+                <div className="w-full h-full container max-w-[720px] pt-8">
+                    <Card>
+                        <CardHeader>
+                            <CardTitle>Cadastre seu cliente</CardTitle>
+                            <CardDescription>
+                                Preencha todas as informações abaixo para salvar
+                            </CardDescription>
+                        </CardHeader>
+                        <CardContent>
+                            <form
+                                onSubmit={handleSubmit}
+                                className="flex flex-col gap-4 mb-2"
+                            >
+                                <InputValidate
+                                    id={"name"}
+                                    label={"Nome do cliente"}
+                                    type="text"
+                                    value={name}
+                                    setValue={setName}
+                                    required={true}
+                                    autoComplete="off"
+                                />
 
-                    <InputValidate 
-                        id={'name'} 
-                        label={'Nome do cliente'}
-                        type='text' 
-                        value={name} 
-                        setValue={setName}
-                        validate={validadeNameInput}                     
-                    />
+                                <InputValidate
+                                    id={"phone"}
+                                    label={"Telefone do cliente"}
+                                    value={phone}
+                                    type="text"
+                                    setValue={setPhone}
+                                    mask={phoneMask}
+                                    maxLength={20}
+                                    required={true}
+                                    autoComplete="off"
+                                />
 
-                    <InputValidate 
-                        id={'phone'} 
-                        label={'Telefone do cliente'} 
-                        value={phone}
-                        type='text'  
-                        setValue={setPhone}
-                        mask={phoneMask}
-                        maxLength={20}                        
-                    />
+                                <InputValidate
+                                    id={"email"}
+                                    label={"E-mail do cliente"}
+                                    type="email"
+                                    value={email}
+                                    setValue={setEmail}
+                                    required={true}
+                                    autoComplete="off"
+                                />
 
-                    <InputValidate 
-                        id={'email'} 
-                        label={'E-mail do cliente'}
-                        type='email' 
-                        value={email} 
-                        setValue={setEmail}                   
-                    />
-                    
-                </form>
+                                <Button
+                                    type="submit"
+                                    disabled={isLoading || !isFillForm()}
+                                    className="w-[120px] mt-4"
+                                >
+                                    Salvar
+                                </Button>
 
-
-
+                                <Toaster />
+                            </form>
+                        </CardContent>
+                    </Card>
+                </div>
             </AppConteiner>
         </>
-        
-    )
+    );
 }
