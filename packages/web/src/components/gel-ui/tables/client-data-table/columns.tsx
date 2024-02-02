@@ -69,10 +69,10 @@ export const columns: ColumnDef<Client>[] = [
         },
     },
     {
-        id: "location",
+        accessorKey: "location",
         header: () => <div className="text-primary">Localização</div>,
         cell: ({ row }) => {
-            return "0,0";
+            return `${ row.original.lon.toFixed(2) } , ${ row.original.lat.toFixed(2) }`;
         },
     },
     {

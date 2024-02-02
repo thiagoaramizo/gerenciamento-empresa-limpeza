@@ -19,22 +19,28 @@ import { useToast } from "../../components/ui/use-toast";
 import { Toaster } from "../../components/ui/toaster";
 import { ToastAction } from "../../components/ui/toast";
 import Link from "next/link";
+import { Label } from "../../components/ui/label";
+import { Input } from "../../components/ui/input";
 
 export default function RegisterClient() {
     const [name, setName] = useState("");
     const [email, setEmail] = useState("");
     const [phone, setPhone] = useState("");
+    const [lon, setLon] = useState("");
+    const [lat, setLat] = useState("");
     const [isLoading, setIsLoading] = useState(false);
     const { toast } = useToast();
 
     const isFillForm = (): boolean => {
-        return name && email && phone ? true : false;
+        return ( name && email && phone && lon && lat ) ? true : false;
     };
 
     const resetForm = () => {
         setEmail("");
         setName("");
         setPhone("");
+        setLon("");
+        setLat("");
     };
 
     const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
@@ -42,7 +48,7 @@ export default function RegisterClient() {
         if (!isLoading && isFillForm()) {
             setIsLoading(true);
             const formatedPhone = phoneRemoveMask(phone);
-            postClient({ name, email, phone: formatedPhone }).then(
+            postClient({ name, email, phone: formatedPhone, lon: parseFloat(lon), lat: parseFloat(lat) }).then(
                 (response) => {
                     setIsLoading(false);
                     resetForm();
@@ -112,6 +118,19 @@ export default function RegisterClient() {
                                     required={true}
                                     autoComplete="off"
                                 />
+
+                                <Label>Localização (x,y)</Label>
+                                <div className="flex w-full gap-4">
+                                    <div className="flex items-center gap-2">
+                                        <label className="font-medium text-foreground text-sm" htmlFor="lon">x</label>
+                                        <Input type="number" id="lon" value={lon} onChange={(e) => setLon(e.target.value)} />
+                                    </div>
+
+                                    <div className="flex items-center gap-2">
+                                        <label className="font-medium text-foreground text-sm" htmlFor="lat">y</label>
+                                        <Input type="number" id="lat" value={lat} onChange={(e) => setLat(e.target.value)} />
+                                    </div>
+                                </div>
 
                                 <Button
                                     type="submit"

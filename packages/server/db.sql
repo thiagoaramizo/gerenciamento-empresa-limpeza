@@ -1,5 +1,6 @@
 \c dbgel;
 
+BEGIN;
 CREATE TABLE IF NOT EXISTS "users" (
     "id" SERIAL PRIMARY KEY,
     "username" VARCHAR(100) NOT NULL,
@@ -13,18 +14,20 @@ CREATE TABLE IF NOT EXISTS "clients" (
     "phone" VARCHAR(20) NOT NULL
 );
 
-CREATE TABLE IF NOT EXISTS "clients_address" (
-    "id" SERIAL PRIMARY KEY,
-    "client_id" INT NOT NULL,
-    "city" VARCHAR(100) NOT NULL,
-    "uf" VARCHAR(2) NOT NULL,
-    "street" VARCHAR(100) NOT NULL,
-    "number" INTEGER NOT NULL,
-    "complement" VARCHAR(100),
+CREATE TABLE IF NOT EXISTS "clients_location" (
+    "client_id" INT PRIMARY KEY,
     "lat" FLOAT NOT NULL,
     "lon" FLOAT NOT NULL,
-    CONSTRAINT fk_client_address FOREIGN KEY (client_id) REFERENCES clients (id)
+    FOREIGN KEY (client_id) REFERENCES clients (id)
+);
+
+CREATE TABLE IF NOT EXISTS "routes" (
+    "id" SERIAL PRIMARY KEY,
+    "created_at" TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    "payload" VARCHAR NOT NULL
 );
 
 INSERT INTO "users"("id", "username", "password")
 VALUES (1, 'admin', 'admin');
+
+COMMIT;

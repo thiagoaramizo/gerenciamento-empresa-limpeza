@@ -4,6 +4,7 @@ import cors from 'cors'
 
 import routes from './routes'
 import clientController from './controller/client-controller'
+import routeController from './controller/route-controller'
 
 const PORT = 3333
 const app = express()
@@ -15,6 +16,7 @@ app.use(cors({
 // Routes
 app.use(routes)
 app.use('/client', clientController)
+app.use('/route', routeController)
 
 
 // Start server

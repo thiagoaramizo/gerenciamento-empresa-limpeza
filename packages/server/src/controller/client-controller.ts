@@ -5,28 +5,44 @@ import Client from '../models/client-model'
 const clientController = express.Router()
 
 clientController.post('/', async (req, res) => {
+    const dbClient = await pool.connect()
+
     try {
         const new_client = req.body as Client
-        const dbClient = await pool.connect()
         const phoneOnlyNumbers = new_client.phone.replace(/\D/g,'') // Removendo caracteres diferentes de dígitos
+        
+        // Alterando a função para uma transação para inclusão das Lon e Lat
+        await dbClient.query('BEGIN')
+        
         const query = `INSERT INTO clients (name, email, phone) VALUES ('${new_client.name}', '${new_client.email}', '${phoneOnlyNumbers}' ) RETURNING id`
         const result = await dbClient.query(query)
-        dbClient.release()
+        
+        const queryLocation = `INSERT INTO clients_location(client_id ,lon, lat) VALUES (${result.rows[0].id}, ${new_client.lon}, ${new_client.lat})`
+        await dbClient.query(queryLocation)
+        
+        await dbClient.query('COMMIT')
+
         res.status(201)
         return res.json({ 
             message: 'Cliente salvo com sucesso',
             id: result.rows[0].id
         })
     } catch (err) {
+        await dbClient.query('ROLLBACK')
         console.log(err)
         res.status(500)
+        return res.json({ 
+            message: 'Erro ao cadastrar cliente',
+        })
+    } finally {
+        dbClient.release()
     }
 })
 
 clientController.get('/', async (req, res) => {
     try {
         const dbClient = await pool.connect()
-        const query = 'SELECT * FROM clients ORDER BY id DESC'
+        const query = 'SELECT A.*, B.lon, B.lat FROM clients A, clients_location B WHERE A.id = B.client_id ORDER BY id DESC'
         const result = await dbClient.query(query)
         dbClient.release()
         return res.json(
@@ -45,7 +61,7 @@ clientController.get('/:id', async (req, res) => {
     try {
         const id = req.params.id
         const dbClient = await pool.connect()
-        const query = `SELECT * FROM clients WHERE id = ${id}`
+        const query = `SELECT A.*, B.lon, B.lat FROM clients A, clients_location B WHERE A.id = B.client_id AND id = ${id}`
         const result = await dbClient.query(query)
         dbClient.release()
         if ( (result.rowCount) && (result.rowCount > 0) ) {
