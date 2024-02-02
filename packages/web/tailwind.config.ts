@@ -73,7 +73,7 @@ const config = {
         "accordion-up": "accordion-up 0.2s ease-out",
       },
       gridTemplateColumns: {
-        "layout": '238px 1fr',
+        "layout": '220px 1fr',
       },
       minHeight: {
         "layout": 'calc(100vh - 96px)',

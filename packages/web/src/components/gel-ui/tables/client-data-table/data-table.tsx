@@ -20,11 +20,11 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-} from "../../ui/table"
-import { Button } from "../../ui/button"
+} from "../../../ui/table"
+import { Button } from "../../../ui/button"
 import { useState } from "react"
-import { Input } from "../../ui/input"
-import { DropdownMenu, DropdownMenuCheckboxItem, DropdownMenuContent, DropdownMenuTrigger } from "../../ui/dropdown-menu"
+import { Input } from "../../../ui/input"
+import { DropdownMenu, DropdownMenuCheckboxItem, DropdownMenuContent, DropdownMenuTrigger } from "../../../ui/dropdown-menu"
 import { CaretDown } from "@phosphor-icons/react"
  
 interface DataTableProps<TData, TValue> {

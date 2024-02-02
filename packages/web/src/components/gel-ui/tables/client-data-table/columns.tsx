@@ -2,12 +2,12 @@
 
 import { ColumnDef } from "@tanstack/react-table";
 import Client from "packages/web/src/models/client-model";
-import { Button } from "../../ui/button";
+import { Button } from "../../../ui/button";
 import { phoneMask } from "packages/web/src/lib/utils";
-import CopyCell from "./copy-cell";
-import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger } from "../../ui/dropdown-menu";
+import CopyCell from "../copy-cell";
+import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger } from "../../../ui/dropdown-menu";
 import { CaretUpDown, DotsThree } from "@phosphor-icons/react";
-import { Checkbox } from "../../ui/checkbox";
+import { Checkbox } from "../../../ui/checkbox";
 
 export const columns: ColumnDef<Client>[] = [
     {

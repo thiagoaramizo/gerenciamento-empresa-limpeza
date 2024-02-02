@@ -2,11 +2,11 @@
 
 import axios from 'axios'
 import { useEffect, useState } from 'react'
-import AppConteiner from '../../components/gel-ui/app-container'
-import PageTitle from '../../components/gel-ui/page-title'
+import AppConteiner from '../../components/gel-ui/layout/app-container'
+import PageTitle from '../../components/gel-ui/typography/page-title'
 import Client from '../../models/client-model'
-import { DataTable } from '../../components/gel-ui/client-data-table/data-table'
-import { columns } from '../../components/gel-ui/client-data-table/columns'
+import { DataTable } from '../../components/gel-ui/tables/client-data-table/data-table'
+import { columns } from '../../components/gel-ui/tables/client-data-table/columns'
 
 
 interface ApiResponse {

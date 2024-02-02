@@ -1,8 +1,8 @@
 import Image from "next/image";
-import { Avatar, AvatarFallback } from "../ui/avatar";
-import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger } from "../ui/dropdown-menu";
+import { Avatar, AvatarFallback } from "../../ui/avatar";
+import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger } from "../../ui/dropdown-menu";
 import Link from "next/link";
-import HeaderSearchForm from "./header-search-form";
+import HeaderSearchForm from "../header-search-form";
 
 export default function Header() {
     return (

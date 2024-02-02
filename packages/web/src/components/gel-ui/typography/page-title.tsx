@@ -6,7 +6,7 @@ interface PageTitleInterface {
 
 export default function PageTitle( {children}: PageTitleInterface) {
     return (
-        <h1 className="text-xl lg:text-2xl xl:text-3xl text-primary font-light uppercase">
+        <h1 className="text-xl lg:text-2xl xl:text-3xl text-primary font-bold uppercase">
             {children}
         </h1>
     )
