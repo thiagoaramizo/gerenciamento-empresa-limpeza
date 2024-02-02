@@ -29,7 +29,7 @@ export default function Clients() {
     return (
         <AppConteiner>
             <PageTitle>Clientes</PageTitle>
-            <div className='pt-8'>
+            <div className='pt-6'>
                 {apiResponse?.clients && <DataTable columns={columns} data={apiResponse.clients}/>}
             </div>
             

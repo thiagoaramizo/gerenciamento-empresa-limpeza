@@ -10,7 +10,7 @@ interface AppConteinerInterface {
 export default function AppConteiner( {children}: AppConteinerInterface) {
     return (
         <>
-        <div className="min-h-screen flex flex-col justify-start bg-slate-100">
+        <div className="min-h-screen flex flex-col justify-start bg-slate-50">
             <Header/>
             <main className="grid grid-cols-layout min-h-layout">
                 <Sidebar />

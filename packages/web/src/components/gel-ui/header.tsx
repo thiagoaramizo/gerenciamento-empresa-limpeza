@@ -20,7 +20,7 @@ export default function Header() {
                             <AvatarFallback className="bg-primary text-primary-foreground">AD</AvatarFallback>
                         </Avatar>
                     </DropdownMenuTrigger>
-                    <DropdownMenuContent className="bg-slate-200/90">
+                    <DropdownMenuContent align="end" className="bg-slate-100">
                         <DropdownMenuItem>Perfil</DropdownMenuItem>
                         <DropdownMenuItem>Configurações</DropdownMenuItem>
                         <DropdownMenuItem>Sair</DropdownMenuItem>
