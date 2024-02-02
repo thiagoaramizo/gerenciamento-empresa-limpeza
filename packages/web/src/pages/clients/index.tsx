@@ -7,6 +7,7 @@ import PageTitle from '../../components/gel-ui/typography/page-title'
 import Client from '../../models/client-model'
 import { DataTable } from '../../components/gel-ui/tables/client-data-table/data-table'
 import { columns } from '../../components/gel-ui/tables/client-data-table/columns'
+import Head from 'next/head'
 
 
 interface ApiResponse {
@@ -27,6 +28,10 @@ export default function Clients() {
     }, [])
 
     return (
+        <>
+        <Head>
+            <title>Clientes - ERP Limpeza</title>
+        </Head>
         <AppConteiner>
             <PageTitle>Clientes</PageTitle>
             <div className='pt-6'>
@@ -34,5 +39,7 @@ export default function Clients() {
             </div>
             
         </AppConteiner>
+        </>
+        
     )
 }
