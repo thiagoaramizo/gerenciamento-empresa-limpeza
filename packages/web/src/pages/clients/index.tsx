@@ -1,31 +1,23 @@
 'use-client'
 
-import axios from 'axios'
 import { useEffect, useState } from 'react'
 import AppConteiner from '../../components/gel-ui/layout/app-container'
 import PageTitle from '../../components/gel-ui/typography/page-title'
-import Client from '../../models/client-model'
 import { DataTable } from '../../components/gel-ui/tables/client-data-table/data-table'
 import { columns } from '../../components/gel-ui/tables/client-data-table/columns'
 import Head from 'next/head'
 import Link from 'next/link'
+import { GetApiResponse, getClients } from '../../services/clients'
 
-
-interface ApiResponse {
-    total: number,
-    clients: Client[]
-}
 
 export default function Clients() {
 
-    const [apiResponse, setApiResponse] = useState<ApiResponse>()
+    const [apiResponse, setApiResponse] = useState<GetApiResponse>()
 
     useEffect( () => {
-        axios.get( 'http://localhost:3333/client')
-            .then( (response) => {
-                setApiResponse( response.data )
-            }).catch( (err) => {
-            })
+        getClients().then(
+            (response) => setApiResponse(response)
+        )
     }, [])
 
     return (

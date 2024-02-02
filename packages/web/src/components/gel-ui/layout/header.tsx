@@ -9,7 +9,7 @@ export default function Header() {
         <header className="w-full h-[96px] bg-slate-200/75 px-6 flex items-center justify-between">
             <div> 
                 <Link href={'/'}>
-                    <Image src={'/logo.svg'} width={190} height={38} alt="ERP Limpeza" />                      
+                    <Image src={'/logo.svg'} width={190} height={38} alt="ERP Limpeza" priority={true}/>                      
                 </Link>
             </div>
             <div className="flex items-center justify-end gap-6">
