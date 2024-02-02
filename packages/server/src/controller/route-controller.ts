@@ -21,14 +21,14 @@ function makeRoute ( clients: Client[] ): RoutePayload {
     //Executando em loop até que todos os clientes estejam na rota
     while ( routed.length < clients.length ){
 
-        const distances = needRoute.map( (clientNeedRoute) => {
+        const distancesArray = needRoute.map( (clientNeedRoute) => {
             return calcDistance( actualLocation, clientNeedRoute )
         } )
 
-        console.log( distances )
+        console.log( distancesArray )
         //achando o menor valor
-        const shortest = Math.min(...distances)
-        const indexShortest = distances.indexOf( shortest )
+        const shortest = Math.min(...distancesArray)
+        const indexShortest = distancesArray.indexOf( shortest )
 
         //Movendo o menor para a rota
         routed.push( needRoute[indexShortest] )
@@ -78,14 +78,9 @@ routeController.get('/new', async (req, res) => {
         const clients = result.rows as Client[]
         const new_route = makeRoute( clients )
         const persistQuery = `INSERT INTO routes (payload) values ('${ JSON.stringify(new_route) }') RETURNING id`
-        const id = await dbClient.query(persistQuery)
+        await dbClient.query(persistQuery)
         res.status(201)
-        return res.json( 
-            {
-                id: id,
-                payload: new_route
-            }
-        )
+        return res.json( new_route )
     }catch (err) {
         console.log(err)
         res.status(500)
