@@ -83,29 +83,24 @@ function makeRoute ( clients: Client[] ): RoutePayload {
     const distances: number[] = []
     const needRoute = JSON.parse( JSON.stringify(clients) ) as Client[]
 
-    // Running in a loop until all clients are on the route
     while ( routed.length < clients.length ){
 
         const distancesArray = needRoute.map( (clientNeedRoute) => {
             return calcDistance( currentLocation, clientNeedRoute )
         } )
 
-        // finding the lowest value
         const shortest = Math.min(...distancesArray)
         const indexShortest = distancesArray.indexOf( shortest )
 
-        // Moving the smallest to the route
         routed.push( needRoute[indexShortest] )
         distances.push( shortest )
         needRoute.splice( indexShortest, 1)
 
-        //Updating current location
         currentLocation.lat = routed[ routed.length -1 ].lat
         currentLocation.lon = routed[ routed.length -1 ].lon
 
     }
 
-    // Returning the ordered payload for the route
     return {
         clients: routed as Client[],
         distances: distances
