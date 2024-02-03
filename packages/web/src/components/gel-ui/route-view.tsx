@@ -35,10 +35,14 @@ export default function RouteView( {route}: RouteViewProps) {
         {
             clients.map( (client, index) =>  (
                 <div key={client.id} className="flex flex-col gap-3">
+                    
+                { (distances[index] > 0) &&
                     <div className="flex items-center gap-5 text-slate-400 pl-2">
                         <CaretDoubleDown size={16} className=""/>
-                        <span className="text-xs">Delocamento de { formatDistance( distances[index] ) }</span>
+                        <span className="text-xs">Deslocamento de { formatDistance( distances[index] ) }</span>
                     </div>
+                }
+                    
                     <div className="flex items-center gap-3 pb-3">
                         <div className="text-primary w-[32px] h-[32px] bg-primary/30 flex items-center justify-center rounded-full">
                             <User size={20} />

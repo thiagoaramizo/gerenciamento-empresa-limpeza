@@ -97,6 +97,7 @@ Obrigatórios:
 - [x] Deve ser possível consultar a rota de visita aos clientes com menor distância possível
 
 Extras:
+- [x] Criar rota a partir de clientes selecionados
 - [x] As rotas criadas podem ser persistidas para consulta posterior
 - [ ] O operador deve ter a capacidade de fazer a autenticação no sistema
 - [ ] Deve ser possível editar as informações de um cliente 
@@ -107,9 +108,8 @@ Obrigatórios:
 - [x] Banco de dados PostgreSQL
 - [x] API REST em Node.js
 - [x] Interface Web em React.js (Next.js)
-- [x] Endpoint da API para consulta da menor rota possível
+- [x] Endpoint da API para consulta da menor rota possível dos clientes
 
 Extras:
-- [ ] Autenticação por JWT
-- [ ] Os endpoints da API devem fazer o controle de acesso
-- [ ] As rotas da Interface Web devem fazer o controle de acesso
+- [x] Endpoint da API para consulta da menor rota possível com base em lista de clientes enviada
+- [ ] Autenticação de rotas por JWT

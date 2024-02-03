@@ -30,6 +30,7 @@ import { Route } from "../../../../models/route-model";
 import { createRoute } from "packages/web/src/services/routes"
 import Client from "packages/web/src/models/client-model"
 import RouteDialogView from "../../route-dialog-view"
+import { Tooltip, TooltipProvider, TooltipTrigger, TooltipContent } from "../../../ui/tooltip"
  
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[]
@@ -96,16 +97,37 @@ export function DataTable<TData, TValue>({
     <div className="flex items-center pb-4">
 
         <div className="flex items-center gap-4">
-            <RouteDialogView route={route} disabled={table.getFilteredSelectedRowModel().rows.length <= 0}>
-              <div 
-              onClick={handleCreateNewRoute} 
-              aria-disabled={table.getFilteredSelectedRowModel().rows.length <= 0}
-              className="inline-flex items-center gap-2 justify-center whitespace-nowrap rounded-md text-md font-medium transition-colors focus-visible:outline-none focus-visible:ring-0 bg-primary text-white hover:bg-primary/90 h-9 px-4 py-4 aria-disabled:opacity-50 aria-disabled:cursor-not-allowed" 
-              >
-                <Path size={20}/>
-                Criar rota
-              </div>
-            </RouteDialogView>
+
+          {
+            ( table.getFilteredSelectedRowModel().rows.length > 0 ) ?
+              <RouteDialogView route={route} disabled={table.getFilteredSelectedRowModel().rows.length <= 0}>
+                <div 
+                onClick={handleCreateNewRoute} 
+                aria-disabled={table.getFilteredSelectedRowModel().rows.length <= 0}
+                className="inline-flex items-center gap-2 justify-center whitespace-nowrap rounded-md text-md font-medium transition-colors focus-visible:outline-none focus-visible:ring-0 bg-primary text-white hover:bg-primary/90 h-9 px-4 py-4 aria-disabled:opacity-50 aria-disabled:cursor-not-allowed" 
+                >
+                  <Path size={20}/>
+                  Criar rota
+                </div>
+              </RouteDialogView>
+            :
+              <TooltipProvider>
+                <Tooltip delayDuration={100}>
+                  <TooltipTrigger>
+                  <div 
+                    className="inline-flex items-center gap-2 justify-center whitespace-nowrap rounded-md text-md font-medium transition-colors focus-visible:outline-none focus-visible:ring-0 bg-primary text-white hover:bg-primary/90 h-9 px-4 py-4 opacity-50 cursor-not-allowed" 
+                  >
+                    <Path size={20}/>
+                    Criar rota
+                  </div>
+
+                  </TooltipTrigger>
+                  <TooltipContent>
+                    <p>Selecione os clientes</p>
+                  </TooltipContent>
+                </Tooltip>
+              </TooltipProvider>
+          }
 
           <Input
             placeholder="Digite o nome do cliente..."
