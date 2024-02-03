@@ -48,8 +48,8 @@ function makeRoute ( clients: Client[] ): RoutePayload {
 }
 
 function calcDistance ( position: { lon: number, lat: number}, client: Client ): number {
-    // Considerando um plano, caso seja necessário considerar a circunferencia da terra é necessário adequar o cálculo
-    // Assim, aplicaremos o teorema de pitágoras: d²=( (xb-xa)² + (yb-ya)²)
+    // Considering a plan, if it is necessary to consider the circumference of the earth, it is necessary to adapt the calculation
+    // Thus, we will apply the Pitagoras theorem: d²=( (xb-xa)² + (yb-ya)²)
     const deltaX = client.lon - position.lon
     const deltay = client.lat - position.lat
     const sqrDistance = (deltaX**2) + (deltay**2)

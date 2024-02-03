@@ -51,6 +51,117 @@ O [NextJs](https://nextjs.org/) é um dos principais frameworks React atualmente
 
 O [shadcn/ui](https://ui.shadcn.com/) é um repositório de implementação de componentes do [Radix-UI](https://www.radix-ui.com/). Ele permite a cópia de componenetes usuais e a total personalização dos mesmos. Considerando a qualidade do projeto e o tempo disponível, se entendeu ser conveniente a utilização deste recurso.
 
+
+### - Cálculo de rotas
+
+Para o cáculo das rotas foi considerado a instrução literal da documentação apresentada, considerando um plano de duas dimensões. Assim para o cálculo de distância foi utilizada o teorema de pitágoras para o cálculo da distância entre dois pontos (d²=( (xb-xa)² + (yb-ya)²).
+
+A função de cálculo de distância consta no arquivo `packages/server/src/controller/route-controller.ts`:
+
+```bash
+function calcDistance ( position: { lon: number, lat: number}, client: Client ): number {
+    const deltaX = client.lon - position.lon
+    const deltay = client.lat - position.lat
+    const sqrDistance = (deltaX**2) + (deltay**2)
+    const distance = Math.sqrt(sqrDistance)
+    return distance
+}
+```
+
+Esta função é utilizada para a ordenação dos clientes:
+
+```bash
+
+function makeRoute ( clients: Client[] ): RoutePayload {
+
+    const currentLocation = {
+        lat: 0,
+        lon: 0
+    }
+
+    const routed: Client[] = []
+    const distances: number[] = []
+    const needRoute = JSON.parse( JSON.stringify(clients) ) as Client[]
+
+    // Running in a loop until all clients are on the route
+    while ( routed.length < clients.length ){
+
+        const distancesArray = needRoute.map( (clientNeedRoute) => {
+            return calcDistance( currentLocation, clientNeedRoute )
+        } )
+
+        // finding the lowest value
+        const shortest = Math.min(...distancesArray)
+        const indexShortest = distancesArray.indexOf( shortest )
+
+        // Moving the smallest to the route
+        routed.push( needRoute[indexShortest] )
+        distances.push( shortest )
+        needRoute.splice( indexShortest, 1)
+
+        //Updating current location
+        currentLocation.lat = routed[ routed.length -1 ].lat
+        currentLocation.lon = routed[ routed.length -1 ].lon
+
+    }
+
+    // Returning the ordered payload for the route
+    return {
+        clients: routed as Client[],
+        distances: distances
+    }
+}
+
+```
+
+Explicando a ordenação: inicialmente defininmos a posição inicial na coordenada (0,0)
+
+``` bash
+    const currentLocation = {
+        lat: 0,
+        lon: 0
+    }
+```
+
+Em seguida criamos os arrays que serão manipulados. Fazemos um cópia total do array de clientes para evitar problemas com a manipulação do objetos:
+
+``` bash
+
+    const routed: Client[] = []
+    const distances: number[] = []
+    const needRoute = JSON.parse( JSON.stringify(clients) ) as Client[]
+
+```
+
+Em um nó de repetição fazemos a comparação das distâncias para localizar o mais próximo. Para isso, a partir de um map criamos um array numérico para armazenar as distâncias.
+Com o array de distancias, `distancesArray`, encontramos o menor valor e a posição deste menor valor no array, esta posição tem equivalencia com o array de clientes que precisam ser ordenados `needRoute`.
+
+Uma vez encontrado o cliente que ocupa esta posição é transferida (copiado e removido) para o array ordenado da rota. Adicionamos ainda a distancia em um array de distancias. A posição atual é atulizada para o local deste novo ponto e a lógica se repete até que todos os clientes estejam devidamente ordenados:
+
+
+```bash
+
+    while ( routed.length < clients.length ){
+
+        const distancesArray = needRoute.map( (clientNeedRoute) => {
+            return calcDistance( currentLocation, clientNeedRoute )
+        } )
+
+        const shortest = Math.min(...distancesArray)
+        const indexShortest = distancesArray.indexOf( shortest )
+
+        routed.push( needRoute[indexShortest] )
+        distances.push( shortest )
+        needRoute.splice( indexShortest, 1)
+
+        currentLocation.lat = routed[ routed.length -1 ].lat
+        currentLocation.lon = routed[ routed.length -1 ].lon
+    }
+
+```
+
+Por fim, os arrays de clientes ordenados e distancias é retornado para que a API dê a sequencia correta. Com essa lógica evitamos iterações desnecessárias e fornecemos o resultado de forma eficiente.
+
 ---
 
 # Executando o sistema
@@ -106,7 +217,7 @@ npm run dev
 
 ---
 
-# Requisitos
+# Requisitos do desenvolvimento da avaliação
 
 ## Requisitos funcionais
 Obrigatórios:
