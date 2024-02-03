@@ -34,7 +34,7 @@ export async function getRoutes(): Promise< GetApiResponse | undefined>  {
 
 export async function getNewRoutesOfAllClients(): Promise<Route | undefined>  {
     try {
-        const response = await api.get( '/route/new/all')
+        const response = await api.get( '/route/new')
         if (response.status == 201) {
             return response.data as Route
         }

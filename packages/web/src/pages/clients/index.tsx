@@ -9,6 +9,7 @@ import Head from 'next/head'
 import Link from 'next/link'
 import { GetApiResponse, getClients } from '../../services/clients'
 import { UserPlus } from '@phosphor-icons/react'
+import Loader from '../../components/gel-ui/loader'
 
 
 export default function Clients() {
@@ -38,7 +39,8 @@ export default function Clients() {
             </div>
             
             <div className='pt-8'>
-                {apiResponse?.clients && <DataTable columns={columns} data={apiResponse.clients}/>}
+                {apiResponse?.clients ? <DataTable columns={columns} data={apiResponse.clients}/> : 
+                <Loader message='Carregando clientes...'/>}
             </div>
             
         </AppConteiner>

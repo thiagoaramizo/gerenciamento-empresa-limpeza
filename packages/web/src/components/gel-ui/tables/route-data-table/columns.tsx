@@ -3,9 +3,11 @@
 import { ColumnDef } from "@tanstack/react-table";
 import { Route, RoutePayload } from "packages/web/src/models/route-model";
 import { Button } from "../../../ui/button";
-import CopyCell from "../copy-cell";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "../../../ui/dropdown-menu";
 import { CaretUpDown, DotsThree } from "@phosphor-icons/react";
+import RouteDialogView from "../../route-dialog-view";
+import { formatDistance, getRouteTotalDistance } from "packages/web/src/lib/utils";
+
 
 export const columns: ColumnDef<Route>[] = [
 
@@ -20,7 +22,11 @@ export const columns: ColumnDef<Route>[] = [
             <CaretUpDown size={24} className="ml-2 h-4 w-4" />
           </button>
         ),
-        cell: ({ row }) => <span className="font-medium"> Rota {row.getValue("id")}</span>
+        cell: ({ row }) => {
+          return (
+            <RouteDialogView  route={row.original}>Rota {row.original.id}</RouteDialogView>
+          )
+        }
     },
     {
       accessorKey: "created_at",
@@ -33,7 +39,21 @@ export const columns: ColumnDef<Route>[] = [
           <CaretUpDown size={24} className="ml-2 h-4 w-4" />
         </button>
       ),
-      cell: ({ row }) => <span className="font-medium">{row.getValue("created_at")}</span>
+      cell: ({ row }) => {
+        const date = new Date (row.getValue("created_at"))
+        const options = {
+          year: "numeric",
+          month: "numeric",
+          day: "numeric",
+          hour: "numeric",
+          minute: "numeric",
+          second: "numeric",
+          hour12: false,
+          timeZone: "UTC",
+        }
+        const formatedDate = new Intl.DateTimeFormat('pt-BR').format(date)
+        return <span className="font-medium">{formatedDate}</span>
+      }
     },
     {
         id: "locations",
@@ -49,11 +69,9 @@ export const columns: ColumnDef<Route>[] = [
       cell: ({ row }) => {
 
           const payload = row.original.payload as RoutePayload
-          const totalDistance = payload.distances.reduce(
-            (accumulator, currentValue) => accumulator + currentValue
-          )
+          const totalDistance = formatDistance( getRouteTotalDistance( payload.distances ) )
 
-          return <span>{`${totalDistance.toFixed(2)} pontos`} </span>;
+          return <span>{totalDistance} </span>;
       },
     },
     {

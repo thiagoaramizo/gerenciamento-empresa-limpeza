@@ -18,3 +18,14 @@ export function phoneRemoveMask( value: string): string {
   value = value.replace(/\D/g,'')
   return value
 }
+
+export function getRouteTotalDistance ( distances: number[] ): number {
+   const totalDistance = distances.reduce(
+    (accumulator, currentValue) => accumulator + currentValue
+  )
+  return totalDistance
+}
+
+export function formatDistance ( distance: number ): string {
+  return new Intl.NumberFormat('pt-BR', {maximumFractionDigits: 2}).format(distance) + " pt"
+}

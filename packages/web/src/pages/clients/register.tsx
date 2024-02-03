@@ -75,7 +75,7 @@ export default function RegisterClient() {
                 <PageTitle>Registro de cliente</PageTitle>
 
                 <div className="w-full h-full container max-w-[720px] pt-8">
-                    <Card>
+                    <Card className="rounded-md shadow-none">
                         <CardHeader>
                             <CardTitle>Cadastre seu cliente</CardTitle>
                             <CardDescription>
