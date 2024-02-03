@@ -156,6 +156,53 @@ Uma vez encontrada a posição, o cliente do `needRoute` é transferido (copiado
 
 Por fim, os arrays de clientes ordenados e distancias é retornado para que a API dê a sequência correta. Com essa lógica evitamos iterações desnecessárias e fornecemos o resultado de forma eficiente.
 
+
+### - DDL tabelas
+
+O DDL da tabelas encontra-se no arquivo `./packages/server/db.sql` e estrutura as seguintes tabelas: 
+
+```bash
+
+BEGIN;
+CREATE TABLE IF NOT EXISTS "users" (
+    "id" SERIAL PRIMARY KEY,
+    "username" VARCHAR(100) NOT NULL,
+    "password" VARCHAR(100) NOT NULL
+);
+
+CREATE TABLE IF NOT EXISTS "clients" (
+    "id" SERIAL PRIMARY KEY,
+    "name" VARCHAR(100) NOT NULL,
+    "email" VARCHAR(100) NOT NULL,
+    "phone" VARCHAR(20) NOT NULL
+);
+
+CREATE TABLE IF NOT EXISTS "clients_location" (
+    "client_id" INT PRIMARY KEY,
+    "lat" FLOAT NOT NULL,
+    "lon" FLOAT NOT NULL,
+    FOREIGN KEY (client_id) REFERENCES clients (id)
+);
+
+CREATE TABLE IF NOT EXISTS "routes" (
+    "id" SERIAL PRIMARY KEY,
+    "created_at" TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    "payload" VARCHAR NOT NULL
+);
+
+INSERT INTO "users"("id", "username", "password")
+VALUES (1, 'admin', 'admin');
+
+COMMIT;
+
+```
+
+Para o cadastro dos clientes foram utilizadas duas tabelas, `clients`, com as informações da parte 1 da avaliação, e `clients_location`, criada posteriormente para a introdução das coordenadas. A inserção nessas tabelas é feita com uma transação, garantindo a consistência dos dados dos clientes.
+
+Para a persistência das rotas criadas definiu-se também uma tabela `routes`. Esta tabela não tem relacionamento explicito com os clientes e armazena o payload gerado pela API.
+
+Por fim a tabela `users` foi criada para uma eventual implementação de sistema de autenticação. 
+
 ---
 
 # Executando o sistema
