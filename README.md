@@ -2,6 +2,26 @@
 
 Este é um sistema de gerenciamento de clientes para uma empresa de limpeza. No sistema o operador pode cadastrar os clientes com as informações `name`, `email`, `phone`, além da localização do cliente em `lon` e `lat`. Permitindo assim a: a) consulta dos clientes; b) a utilização de filtros para a consulta do cliente; e c) a vizualização da rota mais curta para a visitação dos clientes.
 
+Os clientes podem ser consultados a partir de uma tabela dinâmica, que permite o filtro e a ordenação dos elementos:
+
+![Imagem da página de clientes](https://github.com/thiagoaramizo/gerenciamento-empresa-limpeza/blob/main/prints/print1.png?raw=true)
+
+A partir desta tela é possível fazer o cadastro dos clientes:
+
+![Imagem da página de cadastro de clientes](https://github.com/thiagoaramizo/gerenciamento-empresa-limpeza/blob/main/prints/print2.png?raw=true)
+
+A seção de clientes permite ainda a seleção dos clientes desejados para a criação das rotas:
+
+![Imagem da página de clientes com seleção](https://github.com/thiagoaramizo/gerenciamento-empresa-limpeza/blob/main/prints/print3.png?raw=true)
+
+A exibição da rota mais eficiente e apresentada na própria tela, a partir de um modal:
+
+![Imagem da página de clientes](https://github.com/thiagoaramizo/gerenciamento-empresa-limpeza/blob/main/prints/print4.png?raw=true)
+
+Por fim, as rotas calculadas são armazenadas no banco de dados, e podem ser consultadas na seção de rotas:
+
+![Imagem da página de clientes](https://github.com/thiagoaramizo/gerenciamento-empresa-limpeza/blob/main/prints/print5.png?raw=true)
+
 O sistema é composto de 3 camadas: banco de dados PostgreSQl, back-end Node.js (v. 20.11.0) e front-end React.Js.
 
 **Trata-se de sistema criado para avaliação da equipe da Facilíta Jurídico.**
@@ -112,4 +132,5 @@ Obrigatórios:
 
 Extras:
 - [x] Endpoint da API para consulta da menor rota possível com base em lista de clientes enviada
+- [ ] Documentação da API
 - [ ] Autenticação de rotas por JWT
