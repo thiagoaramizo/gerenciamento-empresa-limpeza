@@ -128,10 +128,9 @@ Em seguida criamos os arrays que serão manipulados. Fazemos um cópia total do 
 
 ```
 
-Em um nó de repetição fazemos a comparação das distâncias para localizar o mais próximo. Para isso, a partir de um map criamos um array numérico para armazenar as distâncias.
-Com o array de distancias, `distancesArray`, encontramos o menor valor e a posição deste menor valor no array, esta posição tem equivalencia com o array de clientes que precisam ser ordenados `needRoute`.
+Em um `while` usamos um `map` para criar um array numérico, `distancesArray`, e armazenar as distâncias de cada cliente que precisa ser ordenado (`needRoute`) com a posição atual (`currentLocation`). Com o `distancesArray` preenchido, encontramos o menor valor e a posição deste valor no array, esta posição tem equivalência com o array de clientes que precisam ser ordenados (`needRoute`).
 
-Uma vez encontrado o cliente que ocupa esta posição é transferida (copiado e removido) para o array ordenado da rota. Adicionamos ainda a distancia em um array de distancias. A posição atual é atulizada para o local deste novo ponto e a lógica se repete até que todos os clientes estejam devidamente ordenados:
+Uma vez encontrada a posição, o cliente do `needRoute` é transferido (copiado e removido) para o array ordenado da rota, `routed`. Adicionamos ainda a distancia em um array de distancias(`distances`). A posição atual (`currentLocation`) é atulizada para o local deste novo ponto e a lógica se repete até que todos os clientes estejam devidamente ordenados:
 
 
 ```bash
@@ -155,7 +154,7 @@ Uma vez encontrado o cliente que ocupa esta posição é transferida (copiado e 
 
 ```
 
-Por fim, os arrays de clientes ordenados e distancias é retornado para que a API dê a sequencia correta. Com essa lógica evitamos iterações desnecessárias e fornecemos o resultado de forma eficiente.
+Por fim, os arrays de clientes ordenados e distancias é retornado para que a API dê a sequência correta. Com essa lógica evitamos iterações desnecessárias e fornecemos o resultado de forma eficiente.
 
 ---
 
