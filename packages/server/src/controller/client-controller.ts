@@ -9,9 +9,9 @@ clientController.post('/', async (req, res) => {
 
     try {
         const new_client = req.body as Client
-        const phoneOnlyNumbers = new_client.phone.replace(/\D/g,'') // Removendo caracteres diferentes de dígitos
+        const phoneOnlyNumbers = new_client.phone.replace(/\D/g,'') // Removing characters other than digits
         
-        // Alterando a função para uma transação para inclusão das Lon e Lat
+        // Changing the function for a transaction to include Lon and Lat
         await dbClient.query('BEGIN')
         
         const query = `INSERT INTO clients (name, email, phone) VALUES ('${new_client.name}', '${new_client.email}', '${phoneOnlyNumbers}' ) RETURNING id`
@@ -76,20 +76,6 @@ clientController.get('/:id', async (req, res) => {
         console.log(err)
         res.status(500)
     }
-})
-
-// TODO: implementar função de edição.
-clientController.put('/:id', async (req, res) => {
-    const id = req.params.id
-    res.status(500)
-    return res.json({ message: `Não foi possível editar o usuário id ${id}. Endpoint não implementada.`})
-})
-
-// TODO: implementar função de remoção.
-clientController.delete('/:id', async (req, res) => {
-    const id = req.params.id
-    res.status(500)
-    return res.json({ message: `Não foi possível deletar o usuário id ${id}. Endpoint não implementada.`})
 })
 
 export default clientController

@@ -1,4 +1,4 @@
-import { Pool } from 'pg' // Utilizando a biblioteca https://github.com/brianc/node-postgres para conexão com o banco
+import { Pool } from 'pg' // Using the library https://github.com/brianc/node-postgres to connect to the database
 
 
 const dbConfig = {
@@ -9,6 +9,6 @@ const dbConfig = {
     database: 'dbgel'
 }
 
-const pool = new Pool(dbConfig) //Utilizando pool para gerenciamento de conexões, caso utilize alguma transaction é necessário usar o client com connect() e liberar com release()
+const pool = new Pool(dbConfig) //Using pool to manage connections, if you use a transaction it is necessary to use the client with connect() and release with release()
 
 export default pool

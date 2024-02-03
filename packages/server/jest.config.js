@@ -1,6 +1,6 @@
-const {name} = require('./package.json')
+import { name } from './package.json'
 
-module.exports = {
+export default {
     displayName: name,
     name
 }

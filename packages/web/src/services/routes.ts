@@ -1,6 +1,6 @@
+import Client from "../models/client-model";
 import { Route } from "../models/route-model";
 import api from "./api";
-
 
 export interface GetApiResponse {
     total: number,
@@ -32,7 +32,7 @@ export async function getRoutes(): Promise< GetApiResponse | undefined>  {
     }
 }
 
-export async function getNewRoutesOfAllClients(): Promise<Route | undefined>  {
+export async function createRouteOfAllClients(): Promise<Route | undefined>  {
     try {
         const response = await api.get( '/route/new')
         if (response.status == 201) {
@@ -41,4 +41,13 @@ export async function getNewRoutesOfAllClients(): Promise<Route | undefined>  {
     } catch (err) {
     }
 }
-  
+
+export async function createRoute(clients: Client[]): Promise<Route | undefined> {
+    try {
+        const response = await api.post( '/route/new', clients)
+        if (response.status == 201) {
+            return response.data as Route
+        }
+    } catch (err) {
+    }
+}

@@ -7,41 +7,40 @@ const routeController = express.Router()
 
 function makeRoute ( clients: Client[] ): RoutePayload {
 
-    // Partindo da posição 0,0 procurando o ponto mais próximo
-    const actualLocation = {
+    // Starting from position 0,0 looking for the closest point
+    const currentLocation = {
         lat: 0,
         lon: 0
     }
 
-    // Criando dois arrays de apoio
+    // Creating two support arrays
     const routed: Client[] = []
     const distances: number[] = []
     const needRoute = JSON.parse( JSON.stringify(clients) ) as Client[]
 
-    //Executando em loop até que todos os clientes estejam na rota
+    // Running in a loop until all clients are on the route
     while ( routed.length < clients.length ){
 
         const distancesArray = needRoute.map( (clientNeedRoute) => {
-            return calcDistance( actualLocation, clientNeedRoute )
+            return calcDistance( currentLocation, clientNeedRoute )
         } )
 
-        console.log( distancesArray )
-        //achando o menor valor
+        // finding the lowest value
         const shortest = Math.min(...distancesArray)
         const indexShortest = distancesArray.indexOf( shortest )
 
-        //Movendo o menor para a rota
+        // Moving the smallest to the route
         routed.push( needRoute[indexShortest] )
         distances.push( shortest )
         needRoute.splice( indexShortest, 1)
 
-        //Atualizando a localização atual
-        actualLocation.lat = routed[ routed.length -1 ].lat
-        actualLocation.lon = routed[ routed.length -1 ].lon
+        //Updating current location
+        currentLocation.lat = routed[ routed.length -1 ].lat
+        currentLocation.lon = routed[ routed.length -1 ].lon
 
     }
 
-    // Retornando o payload ordenado para a rota
+    // Returning the ordered payload for the route
     return {
         clients: routed as Client[],
         distances: distances
@@ -58,32 +57,51 @@ function calcDistance ( position: { lon: number, lat: number}, client: Client ):
     return distance
 }
 
-// Criação de rotas com clientes específicos SEM PERSISTENCIA
-routeController.post('/new', (req, res) => {
+// Creation of routes with specific customers in post body
+routeController.post('/new', async (req, res) => {
+    const dbClient = await pool.connect()
     try{
         const clients = req.body as Client[]
-        return res.json( makeRoute( clients ) )
+        const newRoute = makeRoute( clients )
+        const persistQuery = `INSERT INTO routes (payload) values ('${ JSON.stringify(newRoute) }') RETURNING id`
+        const resultNewId = await dbClient.query(persistQuery)
+        res.status(201)
+        return res.json( {
+            id: resultNewId.rows[0].id,
+            created_at: new Date().toISOString(),
+            payload: newRoute
+        } )
     } catch (err) {
         console.log(err)
         res.status(500)
+    }finally{
+        dbClient.release()
     }
 })
 
-//Criação de rota para todos os clientes
+
+// Route creation for all customers
 routeController.get('/new', async (req, res) => {
+    const dbClient = await pool.connect()
     try{
-        const dbClient = await pool.connect()
+        
         const clientsQuery = 'SELECT A.*, B.lon, B.lat FROM clients A, clients_location B WHERE A.id = B.client_id ORDER BY id DESC'
         const result = await dbClient.query(clientsQuery)
         const clients = result.rows as Client[]
-        const new_route = makeRoute( clients )
-        const persistQuery = `INSERT INTO routes (payload) values ('${ JSON.stringify(new_route) }') RETURNING id`
-        await dbClient.query(persistQuery)
+        const newRoute = makeRoute( clients )
+        const persistQuery = `INSERT INTO routes (payload) values ('${ JSON.stringify(newRoute) }') RETURNING id`
+        const resultNewId = await dbClient.query(persistQuery)
         res.status(201)
-        return res.json( new_route )
+        return res.json( {
+            id: resultNewId.rows[0].id,
+            created_at: new Date().toISOString(),
+            payload: newRoute
+        } )
     }catch (err) {
         console.log(err)
         res.status(500)
+    }finally{
+        dbClient.release()
     }
 })
 
@@ -125,20 +143,6 @@ routeController.get('/:id', async (req, res) => {
         console.log(err)
         res.status(500)
     }
-})
-
-// TODO: implementar função de edição.
-routeController.put('/:id', async (req, res) => {
-    const id = req.params.id
-    res.status(500)
-    return res.json({ message: `Não foi possível editar a rota id ${id}. Endpoint não implementada.`})
-})
-
-// TODO: implementar função de remoção.
-routeController.delete('/:id', async (req, res) => {
-    const id = req.params.id
-    res.status(500)
-    return res.json({ message: `Não foi possível deletar a rota id ${id}. Endpoint não implementada.`})
 })
 
 export default routeController

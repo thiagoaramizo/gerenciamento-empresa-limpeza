@@ -6,6 +6,7 @@ import routes from './routes'
 import clientController from './controller/client-controller'
 import routeController from './controller/route-controller'
 
+// Server configuration
 const PORT = 3333
 const app = express()
 app.use(bodyParser.json())

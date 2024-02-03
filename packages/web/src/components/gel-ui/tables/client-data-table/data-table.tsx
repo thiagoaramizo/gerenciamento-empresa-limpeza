@@ -25,7 +25,11 @@ import { Button } from "../../../ui/button"
 import { useState } from "react"
 import { Input } from "../../../ui/input"
 import { DropdownMenu, DropdownMenuCheckboxItem, DropdownMenuContent, DropdownMenuTrigger } from "../../../ui/dropdown-menu"
-import { CaretDown } from "@phosphor-icons/react"
+import { CaretDown, Path } from "@phosphor-icons/react"
+import { Route } from "../../../../models/route-model";
+import { createRoute } from "packages/web/src/services/routes"
+import Client from "packages/web/src/models/client-model"
+import RouteDialogView from "../../route-dialog-view"
  
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[]
@@ -41,6 +45,7 @@ export function DataTable<TData, TValue>({
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([])
   const [rowSelection, setRowSelection] = useState({})
   const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({})
+  const [route, setRoute] = useState<Route>()
 
   const table = useReactTable({
     data,
@@ -61,7 +66,7 @@ export function DataTable<TData, TValue>({
     },
   })
 
-  const setColumnHeaders = ( id: string ) => { // Para conversão do id para nome
+  const setColumnHeaders = ( id: string ) => { // To convert id to name
     switch (id) {
       case "name":
         return "Nome"
@@ -75,18 +80,43 @@ export function DataTable<TData, TValue>({
         return ""
     }
   }
+  
+  const handleCreateNewRoute = () => { // Creating a route of selected clients
+    if ( table.getFilteredSelectedRowModel().rows.length > 0) {
+      const clients = table.getFilteredSelectedRowModel().rows.map( item => item.original )
+      createRoute( clients as Client[]).then(
+        (response) => { 
+          setRoute(response)
+        })
+    }
+  }
  
   return (
     <>
     <div className="flex items-center pb-4">
-        <Input
-          placeholder="Digite o nome do cliente..."
-          value={(table.getColumn("name")?.getFilterValue() as string) ?? ""}
-          onChange={(event) =>
-            table.getColumn("name")?.setFilterValue(event.target.value)
-          }
-          className="max-w-lg shadow-none w-[240px] focus:bg-white focus:w-[360px] focus-visible:border-primary focus-visible:ring-0 transition-all duration-700"
-        />
+
+        <div className="flex items-center gap-4">
+            <RouteDialogView route={route} disabled={table.getFilteredSelectedRowModel().rows.length <= 0}>
+              <div 
+              onClick={handleCreateNewRoute} 
+              aria-disabled={table.getFilteredSelectedRowModel().rows.length <= 0}
+              className="inline-flex items-center gap-2 justify-center whitespace-nowrap rounded-md text-md font-medium transition-colors focus-visible:outline-none focus-visible:ring-0 bg-primary text-white hover:bg-primary/90 h-9 px-4 py-4 aria-disabled:opacity-50 aria-disabled:cursor-not-allowed" 
+              >
+                <Path size={20}/>
+                Criar rota
+              </div>
+            </RouteDialogView>
+
+          <Input
+            placeholder="Digite o nome do cliente..."
+            value={(table.getColumn("name")?.getFilterValue() as string) ?? ""}
+            onChange={(event) =>
+              table.getColumn("name")?.setFilterValue(event.target.value)
+            }
+            className="max-w-lg shadow-none w-[240px] focus:bg-white focus:w-[360px] focus-visible:border-primary focus-visible:ring-0 transition-all duration-700"
+          />
+        </div>
+        
 
         <DropdownMenu>
           <DropdownMenuTrigger asChild>

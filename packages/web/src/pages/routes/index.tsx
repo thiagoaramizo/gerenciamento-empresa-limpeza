@@ -2,7 +2,7 @@ import Head from "next/head";
 import AppConteiner from "../../components/gel-ui/layout/app-container";
 import PageTitle from "../../components/gel-ui/typography/page-title";
 import { useState, useEffect } from "react";
-import { GetApiResponse, getNewRoutesOfAllClients, getRoutes } from "../../services/routes";
+import { GetApiResponse, createRouteOfAllClients, getRoutes } from "../../services/routes";
 import { DataTable } from "../../components/gel-ui/tables/route-data-table/data-table";
 import { columns } from "../../components/gel-ui/tables/route-data-table/columns";
 import { Route } from "../../models/route-model";
@@ -24,7 +24,7 @@ export default function Routes() {
     }, [])
 
     const handleCreateNewRoute = () => {
-      getNewRoutesOfAllClients().then(
+      createRouteOfAllClients().then(
         (response) => { 
           setRoute(response)
         })
@@ -40,10 +40,13 @@ export default function Routes() {
           <PageTitle>Rotas</PageTitle>
 
           <RouteDialogView route={route}>
-            <Button size={"lg"} className="text-md flex gap-2 items-center px-6" onClick={handleCreateNewRoute}>
+            <div
+              className="inline-flex items-center gap-2 justify-center whitespace-nowrap rounded-md text-md font-medium transition-colors focus-visible:outline-none focus-visible:ring-0 bg-primary text-white hover:bg-primary/90 h-10 px-4 py-4" 
+              onClick={handleCreateNewRoute}
+            >
               <Path size={24}/>
-              Nova rota
-            </Button>
+              Nova rota geral
+            </div>
           </RouteDialogView>
 
         </div>

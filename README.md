@@ -93,10 +93,11 @@ Obrigatórios:
 - [x] Cliente deve ser cadastrado com Nome, E-mail e Telefone
 - [x] Deve ser possível consultar os clientes cadastrados
 - [x] Deve ser possível consultar os clientes cadastrados por filtro
-- [ ] O endereço do cliente deverá ser cadastrado com coordenada X,Y (longitude, latitude)
-- [ ] Deve ser possível consultar a rota de visita aos clientes com menor distância possível
+- [x] O endereço do cliente deverá ser cadastrado com coordenada X,Y (longitude, latitude)
+- [x] Deve ser possível consultar a rota de visita aos clientes com menor distância possível
 
 Extras:
+- [x] As rotas criadas podem ser persistidas para consulta posterior
 - [ ] O operador deve ter a capacidade de fazer a autenticação no sistema
 - [ ] Deve ser possível editar as informações de um cliente 
 - [ ] Deve ser possível excluir um cliente  
@@ -106,7 +107,7 @@ Obrigatórios:
 - [x] Banco de dados PostgreSQL
 - [x] API REST em Node.js
 - [x] Interface Web em React.js (Next.js)
-- [ ] Endpoint da API para consulta da menor rota possível
+- [x] Endpoint da API para consulta da menor rota possível
 
 Extras:
 - [ ] Autenticação por JWT

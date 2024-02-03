@@ -8,12 +8,13 @@ import Loader from "./loader";
 interface RouteDialogViewProps {
     children: ReactNode
     route: Route | undefined
+    disabled?: boolean
 }
 
-export default function RouteDialogView( {route, children}: RouteDialogViewProps) {
+export default function RouteDialogView( {route, children, disabled}: RouteDialogViewProps) {
     return (
         <Dialog>
-            <DialogTrigger>
+            <DialogTrigger disabled={disabled}>
                 {children}
             </DialogTrigger>
             <DialogContent>
